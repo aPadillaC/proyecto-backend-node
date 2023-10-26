@@ -6,10 +6,17 @@ const Controller = require('./index');
 const router = express.Router();
 
 
+// Routes
+router.get('/', list);
+router.get('/:id', get);
+router.post('/', upsert);
+router.delete('/', remove);
+
+
 
 
 // Listado de usuarios
-router.get('/', (req, res) => {
+list = (req, res) => {
 
     Controller.list()
         .then((lista) => {
@@ -18,13 +25,13 @@ router.get('/', (req, res) => {
         .catch((err) => {
             response.error(req, res, err.message, 500);
         });
-});
+};
 
 
 
 
 // Ver un usuario
-router.get('/:id', (req, res) => {
+get = (req, res) => {
 
     Controller.get(req.params.id)
         .then((user) => {
@@ -33,13 +40,13 @@ router.get('/:id', (req, res) => {
         .catch((err) => {
             response.error(req, res, err.message, 500);
         });
-});
+};
 
 
 
 
 // Añadir un usuario
-router.post('/upsert', (req, res) => {
+upsert = (req, res) => {
 
     let {name} = req.body;
 
@@ -50,13 +57,13 @@ router.post('/upsert', (req, res) => {
     .catch((err) => {
         response.error(req, res, err.message, 500);
     });
-});
+};
 
 
 
 
 // Eliminar un usuario
-router.delete('/remove', (req, res) => {
+remove = (req, res) => {
 
     Controller.delete(req.params.id)
     .then(() => {
@@ -65,6 +72,6 @@ router.delete('/remove', (req, res) => {
     .catch((err) => {
         response.error(req, res, err.message, 500);
     });
-});
+};
 
 module.exports = router;
