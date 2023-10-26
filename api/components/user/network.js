@@ -10,13 +10,13 @@ const router = express.Router();
 router.get('/', list);
 router.get('/:id', get);
 router.post('/', upsert);
-router.delete('/', remove);
+router.put('/', remove);
 
 
 
 
 // Listado de usuarios
-list = (req, res) => {
+function list (req, res) {
 
     Controller.list()
         .then((lista) => {
@@ -31,7 +31,7 @@ list = (req, res) => {
 
 
 // Ver un usuario
-get = (req, res) => {
+function get (req, res) {
 
     Controller.get(req.params.id)
         .then((user) => {
@@ -46,13 +46,11 @@ get = (req, res) => {
 
 
 // Añadir un usuario
-upsert = (req, res) => {
+function upsert (req, res) {
 
-    let {name} = req.body;
-
-    Controller.post(name)
-    .then((lista) => {
-        response.success(req, res, lista, 200);
+    Controller.upsert(req.body)
+    .then((user) => {
+        response.success(req, res, user, 200);
     })
     .catch((err) => {
         response.error(req, res, err.message, 500);
@@ -63,9 +61,9 @@ upsert = (req, res) => {
 
 
 // Eliminar un usuario
-remove = (req, res) => {
+function remove (req, res) {
 
-    Controller.delete(req.params.id)
+    Controller.remove(req.params.id)
     .then(() => {
         response.success(req, res, true, 200);
     })

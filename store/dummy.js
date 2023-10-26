@@ -26,9 +26,12 @@ get = async (table, id) => {
 
 // Añadir un usuario
 upsert = async (table, data) => {
-    
-    db[collection].push(data)
-    return await list(table);
+    if(!db[table]) {
+        db[table] = [];
+    }
+    db[table].push(data);
+
+    console.log(db);
 }
 
 

@@ -1,6 +1,7 @@
 // Archivo en el que exportamos al controller una funcion
 
 const nanoid = require('nanoid');
+const auth = require('../auth');
 
 const TABLA = 'user';
 
@@ -32,9 +33,10 @@ module.exports = (injectecStore) => {
 
 
     // Añadir un usuario
-    upsert = (body) => {
+    upsert = async (body) => {
         const user = {
-            name: body.name
+            name: body.name,
+            username: body.username
         }
 
         if (body.id) {
@@ -42,6 +44,14 @@ module.exports = (injectecStore) => {
         }
         else {
             user.id = nanoid();
+        }
+
+        if(body.password || body.username){
+            await auth.upsert({
+                id: user.id,
+                username: user.username,
+                password: body.password
+            })
         }
         return store.upsert(TABLA, user)
     }
