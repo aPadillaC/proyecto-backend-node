@@ -33,7 +33,7 @@ module.exports = (injectecStore) => {
 
 
     // Añadir un usuario
-    upsert = async (body) => {
+    async function upsert (body) {
         const user = {
             name: body.name,
             username: body.username

@@ -1,3 +1,6 @@
+// Archivo para definir la estructuta de la respuesta exitosa y de errores
+
+
 exports.success = (req, res, message, status) => {
 
     let statusCode = status || 200;
@@ -6,7 +9,7 @@ exports.success = (req, res, message, status) => {
     res.status(status).send({
         error: false,
         status: statusCode,
-        body: statusMessage
+        body: message
     });
 }
 
@@ -18,8 +21,8 @@ exports.error = (req, res, message, status) => {
 
 
     res.status(statusCode).send({
-        error: false,
-        status: statusMessage,
-        body: message
+        error: true,
+        status: statusCode,
+        body: statusMessage
     });
 }
